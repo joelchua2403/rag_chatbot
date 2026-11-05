@@ -24,7 +24,10 @@ def setup(client):
             properties=[Property(name=k, data_type=t) for k,t in [
                 ("arxiv_id",DataType.TEXT),("version",DataType.INT),("version_key",DataType.TEXT),
                 ("title",DataType.TEXT),("page",DataType.INT),("section",DataType.TEXT),
-                ("chunk_index",DataType.INT),("text",DataType.TEXT),("content_hash",DataType.TEXT)]])
+                ("chunk_index",DataType.INT)]] + [
+                Property(name="text", data_type=DataType.TEXT, index_searchable=True),
+                Property(name="content_hash", data_type=DataType.TEXT),
+            ])
 
 
 def version_filter(arxiv_id, version=None):

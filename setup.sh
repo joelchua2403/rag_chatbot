@@ -7,6 +7,11 @@ info() { printf '\n\033[1;34m==> %s\033[0m\n' "$*"; }
 fail() { printf '\nERROR: %s\n' "$*" >&2; exit 1; }
 need() { command -v "$1" >/dev/null 2>&1 || fail "Missing $1. Install it, then rerun ./setup.sh"; }
 
+case "$(uname -s)" in
+  MINGW*|MSYS*|CYGWIN*) IS_WINDOWS=true ;;
+  *) IS_WINDOWS=false ;;
+esac
+
 need docker
 need ollama
 need curl
@@ -18,20 +23,42 @@ if ! docker compose version >/dev/null 2>&1; then
   fail 'Docker Compose v2 is required.'
 fi
 
-if [[ ! -d .venv ]]; then
-  info 'Finding Python 3.11 or 3.12'
-  PYTHON=''
-  for candidate in python3.11 python3.12 python3; do
-    if command -v "$candidate" >/dev/null 2>&1 && "$candidate" -c 'import sys; assert (3,11) <= sys.version_info[:2] <= (3,12)' >/dev/null 2>&1; then
-      PYTHON="$candidate"
-      break
-    fi
-  done
-  [[ -n "$PYTHON" ]] || fail 'Python 3.11 or 3.12 is required.'
-  "$PYTHON" -m venv .venv
+if [[ "$IS_WINDOWS" == true ]]; then
+  VENV_PYTHON='.venv/Scripts/python.exe'
+else
+  VENV_PYTHON='.venv/bin/python'
 fi
-source .venv/bin/activate
-python -c 'import sys; assert (3,11) <= sys.version_info[:2] <= (3,12)' || fail 'Existing .venv has the wrong Python version. Delete .venv and rerun.'
+
+if [[ ! -f "$VENV_PYTHON" ]]; then
+  if [[ -d .venv ]]; then
+    fail "Existing .venv is incomplete or was created for a different OS. Remove only this project's .venv and rerun."
+  fi
+
+  info 'Finding Python 3.11 or 3.12'
+  PYTHON_CMD=()
+  if [[ "$IS_WINDOWS" == true ]] && command -v py >/dev/null 2>&1; then
+    for version in 3.11 3.12; do
+      if py -"$version" -c 'import sys; assert (3,11) <= sys.version_info[:2] <= (3,12)' >/dev/null 2>&1; then
+        PYTHON_CMD=(py "-$version")
+        break
+      fi
+    done
+  fi
+  if (( ${#PYTHON_CMD[@]} == 0 )); then
+    for candidate in python3.11 python3.12 python3 python; do
+      if command -v "$candidate" >/dev/null 2>&1 && "$candidate" -c 'import sys; assert (3,11) <= sys.version_info[:2] <= (3,12)' >/dev/null 2>&1; then
+        PYTHON_CMD=("$candidate")
+        break
+      fi
+    done
+  fi
+  (( ${#PYTHON_CMD[@]} > 0 )) || fail 'Python 3.11 or 3.12 is required. On Windows, install Python and verify: py -3.11 --version'
+  info "Creating virtual environment using ${PYTHON_CMD[*]}"
+  "${PYTHON_CMD[@]}" -m venv .venv
+fi
+
+"$VENV_PYTHON" -c 'import sys; assert (3,11) <= sys.version_info[:2] <= (3,12)' || fail 'Existing .venv has the wrong Python version. Remove this project .venv and rerun.'
+info "Using $("$VENV_PYTHON" --version)"
 
 if [[ ! -f .env ]]; then
   [[ -f .env.example ]] || fail 'Missing .env.example'
@@ -40,7 +67,7 @@ if [[ ! -f .env ]]; then
 fi
 
 info 'Installing Python dependencies'
-python -m pip install -r requirements.txt
+"$VENV_PYTHON" -m pip install -r requirements.txt
 
 info 'Starting Weaviate'
 docker compose up -d
@@ -62,22 +89,22 @@ if ! curl -fsS --max-time 5 http://localhost:11434/api/tags >/dev/null 2>&1; the
     open -a Ollama >/dev/null 2>&1 || true
   fi
   if ! curl -fsS --max-time 5 http://localhost:11434/api/tags >/dev/null 2>&1; then
-    fail 'Ollama is not responding at localhost:11434. Start Ollama (or run ollama serve), then rerun.'
+    fail 'Ollama is not responding at localhost:11434. Start Ollama, then rerun.'
   fi
 fi
 
-MODEL="$(python -c 'from app.config import settings; print(settings.ollama_model)')"
+MODEL="$("$VENV_PYTHON" -c 'from app.config import settings; print(settings.ollama_model)')"
 info "Ensuring Ollama model $MODEL is available"
 ollama pull "$MODEL"
 
 info 'Ingesting arXiv papers (unchanged versions should be skipped)'
-python -m scripts.ingest
+"$VENV_PYTHON" -m scripts.ingest
 
 info 'Checking Weaviate contents'
-python -m scripts.inspect_weaviate
+"$VENV_PYTHON" -m scripts.inspect_weaviate
 
 info 'Running unit tests'
-python -m pytest -q
+"$VENV_PYTHON" -m pytest -q
 
 info 'Setup complete. Launching interactive chatbot (type quit to exit)'
-python -m scripts.chat
+"$VENV_PYTHON" -m scripts.chat

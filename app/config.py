@@ -1,4 +1,8 @@
+from typing import Literal
+
+from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
 
 class Settings(BaseSettings):
     weaviate_host: str = "localhost"
@@ -11,5 +15,10 @@ class Settings(BaseSettings):
     chunk_size: int = 900
     chunk_overlap: int = 120
     retrieval_top_k: int = 6
+    retrieval_mode: Literal["dense", "hybrid"] = "hybrid"
+    hybrid_alpha: float = Field(default=0.5, ge=0.0, le=1.0)
+
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
+
+
 settings = Settings()

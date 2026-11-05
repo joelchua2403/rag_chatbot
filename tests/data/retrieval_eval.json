@@ -1,0 +1,142 @@
+[
+  {
+    "id": "encoding-taxonomy-exact",
+    "question": "What three axes does the paper use in its cost-expressivity-robustness taxonomy?",
+    "category": "exact technical terminology",
+    "arxiv_id": "2606.05387",
+    "version": 1,
+    "source_basis": "The v1 introduction describes a three-axis cost-expressivity-robustness taxonomy.",
+    "relevant_chunk_ids": null,
+    "judgments_complete": false
+  },
+  {
+    "id": "low-error-encoding-paraphrase-v1",
+    "question": "For low gate-error rates on NISQ hardware, which encoding approach is reported to work better in practice?",
+    "category": "semantic paraphrase",
+    "arxiv_id": "2606.05387",
+    "version": 1,
+    "source_basis": "The v1 introduction states a finding about shallow angle-based and amplitude encoding.",
+    "relevant_chunk_ids": null,
+    "judgments_complete": false
+  },
+  {
+    "id": "encoding-families",
+    "question": "Which encoding families are included in the survey's taxonomy?",
+    "category": "paper-specific concept",
+    "arxiv_id": "2606.05387",
+    "version": 1,
+    "source_basis": "The v1 introduction names basis, angle, dense-angle, amplitude, data re-uploading, and IQP families.",
+    "relevant_chunk_ids": null,
+    "judgments_complete": false
+  },
+  {
+    "id": "reporting-checklist-v1",
+    "question": "According to version 1 of arXiv 2606.05387, what reporting standards do the authors recommend?",
+    "category": "version-specific fact",
+    "arxiv_id": "2606.05387",
+    "version": 1,
+    "source_basis": "The v1 discussion encourages journals and conferences to adopt a supplementary checklist.",
+    "relevant_chunk_ids": null,
+    "judgments_complete": false
+  },
+  {
+    "id": "error-threshold-v2",
+    "question": "In version 2 of arXiv 2606.05387, what gate-error threshold is discussed for amplitude encoding?",
+    "category": "version-specific fact",
+    "arxiv_id": "2606.05387",
+    "version": 2,
+    "source_basis": "The v2 introduction discusses a critical gate-error rate for amplitude encoding.",
+    "relevant_chunk_ids": null,
+    "judgments_complete": false
+  },
+  {
+    "id": "error-threshold-latest",
+    "question": "What gate-error threshold is discussed for amplitude encoding in arXiv 2606.05387?",
+    "category": "similar content across versions",
+    "arxiv_id": "2606.05387",
+    "version": null,
+    "source_basis": "Both indexed versions discuss the gate-error threshold and latest-version selection is expected.",
+    "relevant_chunk_ids": null,
+    "judgments_complete": false
+  },
+  {
+    "id": "qaml-scope",
+    "question": "What does the survey of quantum adversarial machine learning cover about attacks and defenses?",
+    "category": "semantic paraphrase",
+    "arxiv_id": "2605.18821",
+    "version": 1,
+    "source_basis": "The abstract describes an overview of vulnerabilities, attacks, and countermeasures.",
+    "relevant_chunk_ids": null,
+    "judgments_complete": false
+  },
+  {
+    "id": "qaml-corresponding-author",
+    "question": "Who is the corresponding author listed for arXiv 2605.18821?",
+    "category": "author metadata",
+    "arxiv_id": "2605.18821",
+    "version": 1,
+    "source_basis": "The first page lists corresponding author information in the author block.",
+    "relevant_chunk_ids": null,
+    "judgments_complete": false
+  },
+  {
+    "id": "feature-paper-v2-date",
+    "question": "What publication date is shown for version 2 of arXiv 2606.05387?",
+    "category": "publication metadata",
+    "arxiv_id": "2606.05387",
+    "version": 2,
+    "source_basis": "The v2 first page includes its date in the paper metadata.",
+    "relevant_chunk_ids": null,
+    "judgments_complete": false
+  },
+  {
+    "id": "feature-paper-v1-affiliation",
+    "question": "Which institutions are listed with Vincenzo Sammartino in version 1 of arXiv 2606.05387?",
+    "category": "author metadata",
+    "arxiv_id": "2606.05387",
+    "version": 1,
+    "source_basis": "The v1 first page lists the author's university affiliations.",
+    "relevant_chunk_ids": null,
+    "judgments_complete": false
+  },
+  {
+    "id": "quantum-review-first-author",
+    "question": "Who is the first author of arXiv 2607.00365?",
+    "category": "author metadata",
+    "arxiv_id": "2607.00365",
+    "version": 1,
+    "source_basis": "The first page lists the review's author names.",
+    "relevant_chunk_ids": null,
+    "judgments_complete": false
+  },
+  {
+    "id": "agentic-ai-workflow",
+    "question": "How does the review describe the operation of agentic AI systems?",
+    "category": "paper-specific concept",
+    "arxiv_id": "2607.00365",
+    "version": 1,
+    "source_basis": "A passage in the review describes agents planning, calling tools, observing outputs, updating memory, and revising actions.",
+    "relevant_chunk_ids": null,
+    "judgments_complete": false
+  },
+  {
+    "id": "latest-version-without-paper",
+    "question": "What encoding families does the paper on quantum machine learning feature encoding compare?",
+    "category": "latest-version selection",
+    "arxiv_id": null,
+    "version": null,
+    "source_basis": "The question describes the feature-encoding survey by topic without specifying an arXiv ID or version.",
+    "relevant_chunk_ids": null,
+    "judgments_complete": false
+  },
+  {
+    "id": "semantic-keyword-qml",
+    "question": "How does the feature-encoding survey recommend choosing an encoding for a task?",
+    "category": "semantic paraphrase",
+    "arxiv_id": "2606.05387",
+    "version": null,
+    "source_basis": "The paper's introduction describes actionable encoding-selection guidance based on hardware and task considerations.",
+    "relevant_chunk_ids": null,
+    "judgments_complete": false
+  }
+]
